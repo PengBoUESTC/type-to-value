@@ -1,0 +1,8 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`base test base test 1`] = `
+{
+  "a": "string",
+  "b": 0,
+}
+`;
