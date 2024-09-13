@@ -1,0 +1,12 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`base test DataInner value convert success 1`] = `
+{
+  "a": {
+    "a": 100,
+  },
+  "b": {
+    "b": "string",
+  },
+}
+`;

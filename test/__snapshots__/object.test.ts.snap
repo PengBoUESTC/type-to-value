@@ -1,0 +1,19 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<Literal> value object test LiteralValue object convert success test 1`] = `
+{
+  "a": "",
+  "b": 1,
+  "c": false,
+}
+`;
+
+exports[`non <Literal> value object test DataObject object convert success test 1`] = `
+{
+  "a": "string",
+  "b": 0,
+  "c": true,
+  "d": undefined,
+  "e": null,
+}
+`;

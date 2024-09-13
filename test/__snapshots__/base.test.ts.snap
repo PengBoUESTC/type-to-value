@@ -1,8 +1,9 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`base test base test 1`] = `
+exports[`base test Data value convert success 1`] = `
 {
   "a": "string",
   "b": 0,
+  "c": {},
 }
 `;

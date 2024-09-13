@@ -1,0 +1,29 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`array test ArrayData value convert success 1`] = `
+{
+  "a": [
+    {
+      "a": "string",
+    },
+  ],
+}
+`;
+
+exports[`array test ArrayData2 value convert success 1`] = `
+[
+  {
+    "c": 0,
+  },
+]
+`;
+
+exports[`array test ArrayData3 value convert success 1`] = `
+{
+  "a": [
+    "string",
+    0,
+    true,
+  ],
+}
+`;
