@@ -15,3 +15,11 @@ interface Data {
   "b": 0,
 }
 ```
+
+## TODO
+
+- symbol value 
+
+- bigint value
+
+- so on
