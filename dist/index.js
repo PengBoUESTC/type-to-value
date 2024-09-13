@@ -1,6 +1,8 @@
 'use strict';
 
 var tsMorph = require('ts-morph');
+var node_process = require('node:process');
+var node_path = require('node:path');
 
 class TypeToValue {
     constructor(options) {
@@ -13,12 +15,21 @@ class TypeToValue {
     get keyCount() {
         return this.typeKeyCount;
     }
+    get sourceFilesPaths() {
+        const result = {};
+        Object.entries(this.sourceFileCache).map(([key, sourceFile]) => {
+            result[key] = sourceFile.getFilePath();
+        });
+        return result;
+    }
     get sourceFiles() {
         return this.sourceFileCache;
     }
     init(options) {
         const { sourceFilePath } = options;
-        const project = new tsMorph.Project({});
+        const project = new tsMorph.Project({
+            tsConfigFilePath: node_path.join(node_process.cwd(), 'tsconfig.json')
+        });
         project.addSourceFilesAtPaths(sourceFilePath);
         const tsFiles = project.getDirectories().map(d => d.getSourceFiles().map(s => s.getFilePath())).filter(item => item.length).flat(1);
         tsFiles.forEach(tsFile => {
@@ -42,6 +53,15 @@ class TypeToValue {
     generateValue(type) {
         var _a;
         const properties = type.getProperties();
+        if (type.isUndefined()) {
+            return undefined;
+        }
+        if (type.isNull()) {
+            return null;
+        }
+        if (type.isLiteral()) {
+            return this.genLiteralValue(type);
+        }
         if (!properties.length) {
             return this.genOuterObject(type);
         }
@@ -56,7 +76,11 @@ class TypeToValue {
         }
         else if (type.isArray()) {
             const elementType = type.getArrayElementTypeOrThrow();
-            return [this.genObject(elementType)];
+            return [this.generateValue(elementType)];
+        }
+        else if (type.isTuple()) {
+            const tupleElements = type.getTupleElements();
+            return tupleElements.map(element => this.generateValue(element));
         }
         else if (type.isObject()) {
             return this.genInnerObject(type);
@@ -66,6 +90,12 @@ class TypeToValue {
         }
         return null;
     }
+    genLiteralValue(type) {
+        if (type.isBooleanLiteral()) {
+            return type.getText() === 'true';
+        }
+        return type.getLiteralValue();
+    }
     genEnum(enumDeclaration) {
         if (!enumDeclaration)
             return;
@@ -73,13 +103,6 @@ class TypeToValue {
         if (!members.length)
             return;
         return members[0].getValue();
-    }
-    genObject(type) {
-        const properties = type.getProperties();
-        if (!properties.length) {
-            return this.genOuterObject(type);
-        }
-        return this.genInnerObject(type);
     }
     genInnerObject(type) {
         const value = {};
@@ -94,43 +117,29 @@ class TypeToValue {
         return value;
     }
     genOuterObject(type) {
+        var _a;
         const name = type.getText();
         for (let i = 1; i <= this.typeKeyCount[name]; i++) {
             const sourceFile = this.sourceFileCache[`${name}-${i}`];
             if (sourceFile) {
-                const interfaceType = sourceFile.getInterface(name);
-                const typeType = sourceFile.getTypeAlias(name);
-                const enumType = sourceFile.getEnum(name);
-                if (enumType) {
-                    return this.genEnum(enumType);
+                const interfaceDeclaration = (_a = (sourceFile.getInterface(name) || sourceFile.getTypeAlias(name) || sourceFile.getEnum(name))) === null || _a === void 0 ? void 0 : _a.getType();
+                if (interfaceDeclaration) {
+                    return this.generateValue(interfaceDeclaration);
                 }
-                return this.runBase(interfaceType || typeType);
             }
         }
         return {};
     }
     runBase(interfaceDeclaration) {
-        const value = {};
         if (!interfaceDeclaration)
             return {};
-        interfaceDeclaration.getType().getProperties().forEach(prop => {
-            const name = prop.getName();
-            const declaration = prop.getValueDeclaration();
-            if (!declaration) {
-                return prop;
-            }
-            const propType = prop.getTypeAtLocation(declaration);
-            value[name] = this.generateValue(propType);
-        });
-        return value;
+        return this.generateValue(interfaceDeclaration.getType());
     }
     run(path, typeValue) {
         const sourceFile = this.project.getSourceFile(path);
         if (!sourceFile)
             return null;
-        const interfaceDeclaration = sourceFile.getInterfaceOrThrow(typeValue);
-        const typeAliasDeclaration = sourceFile.getTypeAlias(typeValue);
-        return this.runBase(interfaceDeclaration || typeAliasDeclaration);
+        return this.runBase(sourceFile.getInterface(typeValue) || sourceFile.getTypeAlias(typeValue));
     }
 }
 

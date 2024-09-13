@@ -8,11 +8,12 @@ export declare class TypeToValue {
     project: Project;
     constructor(options: Options);
     get keyCount(): Record<string, number>;
+    get sourceFilesPaths(): Record<string, string>;
     get sourceFiles(): Record<string, SourceFile>;
     init(options: Options): Project;
     generateValue(type: Type<ts.Type>): any;
+    genLiteralValue(type: Type<ts.Type>): string | number | boolean | ts.PseudoBigInt | undefined;
     genEnum(enumDeclaration?: EnumDeclaration): string | number | undefined;
-    genObject(type: Type<ts.Type>): any;
     genInnerObject(type: Type<ts.Type>): any;
     genOuterObject(type: Type<ts.Type>): any;
     runBase(interfaceDeclaration?: InterfaceDeclaration | TypeAliasDeclaration): any;
