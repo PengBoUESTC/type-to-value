@@ -1,3 +1,12 @@
+## [0.0.3](https://github.com/PengBoUESTC/type-to-value/compare/v0.0.2...v0.0.3) (2024-09-14)
+
+
+### Features
+
+* support default value & support Union & support isBigInt ([5b7572c](https://github.com/PengBoUESTC/type-to-value/commit/5b7572cd9dbebc502c302c233a1155f090276f34))
+
+
+
 ## [0.0.2](https://github.com/PengBoUESTC/type-to-value/compare/v0.0.1...v0.0.2) (2024-09-13)
 
 

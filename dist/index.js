@@ -26,9 +26,9 @@ class TypeToValue {
         return this.sourceFileCache;
     }
     init(options) {
-        const { sourceFilePath } = options;
+        const { sourceFilePath, tsConfigFilePath = node_path.join(node_process.cwd(), 'tsconfig.json') } = options;
         const project = new tsMorph.Project({
-            tsConfigFilePath: node_path.join(node_process.cwd(), 'tsconfig.json')
+            tsConfigFilePath,
         });
         project.addSourceFilesAtPaths(sourceFilePath);
         const tsFiles = project.getDirectories().map(d => d.getSourceFiles().map(s => s.getFilePath())).filter(item => item.length).flat(1);
@@ -50,9 +50,8 @@ class TypeToValue {
         });
         return project;
     }
-    generateValue(type) {
+    generateValue(type, config) {
         var _a;
-        const properties = type.getProperties();
         if (type.isUndefined()) {
             return undefined;
         }
@@ -62,31 +61,44 @@ class TypeToValue {
         if (type.isLiteral()) {
             return this.genLiteralValue(type);
         }
-        if (!properties.length) {
-            return this.genOuterObject(type);
-        }
         if (type.isString()) {
             return 'string';
         }
-        else if (type.isNumber()) {
+        if (type.isBigInt()) {
+            return BigInt('9007199254740991');
+        }
+        if (type.isNumber()) {
             return 0;
         }
-        else if (type.isBoolean()) {
+        if (type.isBoolean()) {
             return true;
         }
-        else if (type.isArray()) {
+        if (type.isEnum()) {
+            return this.genEnum((_a = type.getSymbol()) === null || _a === void 0 ? void 0 : _a.getDeclarations()[0].asKindOrThrow(tsMorph.SyntaxKind.EnumDeclaration));
+        }
+        if (type.isUnion()) {
+            return this.generateValue(type.getUnionTypes()[0]);
+        }
+        if (type.isArray()) {
             const elementType = type.getArrayElementTypeOrThrow();
             return [this.generateValue(elementType)];
         }
-        else if (type.isTuple()) {
+        if (type.isTuple()) {
             const tupleElements = type.getTupleElements();
             return tupleElements.map(element => this.generateValue(element));
         }
-        else if (type.isObject()) {
-            return this.genInnerObject(type);
+        if (type.isObject()) {
+            return this.genInnerObject(type, config);
         }
-        else if (type.isEnum()) {
-            return this.genEnum((_a = type.getSymbol()) === null || _a === void 0 ? void 0 : _a.getDeclarations()[0].asKindOrThrow(tsMorph.SyntaxKind.EnumDeclaration));
+        if (type.isVoid()) {
+            return void 0;
+        }
+        if (type.isUnknown()) {
+            return {};
+        }
+        const properties = type.getProperties();
+        if (!properties.length) {
+            return this.genOuterObject(type, config);
         }
         return null;
     }
@@ -104,19 +116,25 @@ class TypeToValue {
             return;
         return members[0].getValue();
     }
-    genInnerObject(type) {
+    genInnerObject(type, config) {
         const value = {};
         const properties = type.getProperties();
         properties.forEach(prop => {
-            const t = prop.getValueDeclaration();
-            if (t) {
+            const name = prop.getName();
+            if (config && config.hasOwnProperty(name)) {
+                value[name] = config[name];
+            }
+            else {
+                const t = prop.getValueDeclaration();
+                if (!t)
+                    return;
                 const propType = prop.getTypeAtLocation(t);
-                value[prop.getName()] = this.generateValue(propType);
+                value[name] = this.generateValue(propType, this.getConfig(name, config));
             }
         });
         return value;
     }
-    genOuterObject(type) {
+    genOuterObject(type, config) {
         var _a;
         const name = type.getText();
         for (let i = 1; i <= this.typeKeyCount[name]; i++) {
@@ -124,22 +142,43 @@ class TypeToValue {
             if (sourceFile) {
                 const interfaceDeclaration = (_a = (sourceFile.getInterface(name) || sourceFile.getTypeAlias(name) || sourceFile.getEnum(name))) === null || _a === void 0 ? void 0 : _a.getType();
                 if (interfaceDeclaration) {
-                    return this.generateValue(interfaceDeclaration);
+                    return this.generateValue(interfaceDeclaration, config);
                 }
             }
         }
         return {};
     }
-    runBase(interfaceDeclaration) {
+    getConfig(leadKey, config) {
+        if (!config)
+            return config;
+        const nextConfig = {};
+        let isEmpty = true;
+        Object.keys(config).forEach(key => {
+            if (!key)
+                return;
+            const keys = key.split('.');
+            if (keys[0] !== leadKey)
+                return;
+            const nextKey = keys.slice(1).join('.');
+            if (!nextKey)
+                return;
+            isEmpty = false;
+            nextConfig[nextKey] = config[key];
+        });
+        if (isEmpty)
+            return undefined;
+        return nextConfig;
+    }
+    runBase(interfaceDeclaration, config) {
         if (!interfaceDeclaration)
             return {};
-        return this.generateValue(interfaceDeclaration.getType());
+        return this.generateValue(interfaceDeclaration.getType(), config);
     }
-    run(path, typeValue) {
+    run(path, typeValue, config) {
         const sourceFile = this.project.getSourceFile(path);
         if (!sourceFile)
             return null;
-        return this.runBase(sourceFile.getInterface(typeValue) || sourceFile.getTypeAlias(typeValue));
+        return this.runBase(sourceFile.getInterface(typeValue) || sourceFile.getTypeAlias(typeValue), config);
     }
 }
 

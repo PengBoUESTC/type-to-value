@@ -1,6 +1,10 @@
 import { Project, type SourceFile, type Type, ts, type InterfaceDeclaration, type TypeAliasDeclaration, type EnumDeclaration } from 'ts-morph';
 interface Options {
     sourceFilePath: string;
+    tsConfigFilePath?: string;
+}
+interface ConvertConfig {
+    [path: string]: any;
 }
 export declare class TypeToValue {
     private sourceFileCache;
@@ -11,12 +15,13 @@ export declare class TypeToValue {
     get sourceFilesPaths(): Record<string, string>;
     get sourceFiles(): Record<string, SourceFile>;
     init(options: Options): Project;
-    generateValue(type: Type<ts.Type>): any;
+    generateValue(type: Type<ts.Type>, config?: ConvertConfig): any;
     genLiteralValue(type: Type<ts.Type>): string | number | boolean | ts.PseudoBigInt | undefined;
     genEnum(enumDeclaration?: EnumDeclaration): string | number | undefined;
-    genInnerObject(type: Type<ts.Type>): any;
-    genOuterObject(type: Type<ts.Type>): any;
-    runBase(interfaceDeclaration?: InterfaceDeclaration | TypeAliasDeclaration): any;
-    run(path: string, typeValue: string): any;
+    genInnerObject(type: Type<ts.Type>, config?: ConvertConfig): any;
+    genOuterObject(type: Type<ts.Type>, config?: ConvertConfig): any;
+    getConfig(leadKey: string, config?: ConvertConfig): Record<string, any> | undefined;
+    runBase(interfaceDeclaration?: InterfaceDeclaration | TypeAliasDeclaration, config?: ConvertConfig): any;
+    run(path: string, typeValue: string, config?: ConvertConfig): any;
 }
 export {};
