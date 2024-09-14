@@ -43,3 +43,10 @@ describe('<Literal> value object test', () => {
     expect(typeof result.c).toBe('boolean')
   })
 })
+
+describe('<Partial> value object test', () => {
+  const result = typeToValue.run('test/dts/object.d.ts', 'DataObject2')
+  test('Partial object convert success test', () => {
+    expect(result).toMatchSnapshot()
+  })
+})

@@ -8,6 +8,13 @@ exports[`<Literal> value object test LiteralValue object convert success test 1`
 }
 `;
 
+exports[`<Partial> value object test Partial object convert success test 1`] = `
+{
+  "a": {},
+  "b": undefined,
+}
+`;
+
 exports[`non <Literal> value object test DataObject object convert success test 1`] = `
 {
   "a": "string",
