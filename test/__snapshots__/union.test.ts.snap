@@ -1,0 +1,15 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`union test UnionData value convert success 1`] = `
+{
+  "a": "1",
+}
+`;
+
+exports[`union test UnionData2 value convert success 1`] = `
+{
+  "c": {
+    "b": true,
+  },
+}
+`;

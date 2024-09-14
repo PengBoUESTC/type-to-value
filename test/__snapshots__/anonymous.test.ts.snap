@@ -1,0 +1,10 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Anonymous test AnonymousType convert correctly 1`] = `
+{
+  "a": {
+    "a": 0,
+  },
+  "c": 9007199254740991n,
+}
+`;

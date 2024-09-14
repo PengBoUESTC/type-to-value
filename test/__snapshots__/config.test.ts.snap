@@ -1,0 +1,84 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`config test config convert correctly :: current key 1`] = `undefined`;
+
+exports[`config test config convert correctly :: multi nest key 1`] = `
+{
+  "b": 100,
+  "c": 100,
+}
+`;
+
+exports[`config test config convert correctly :: nest key 1`] = `
+{
+  "b": 100,
+}
+`;
+
+exports[`config test config convert correctly :: not include key 1`] = `undefined`;
+
+exports[`config test config convert correctly :: replace value 1 1`] = `
+{
+  "a": "test3",
+  "b": {
+    "c": 0,
+  },
+  "z": {
+    "x": {
+      "p": "string",
+    },
+  },
+}
+`;
+
+exports[`config test config convert correctly :: replace value 2 1`] = `
+{
+  "a": {
+    "d": "test3",
+  },
+  "b": {
+    "c": 0,
+  },
+  "z": {
+    "x": {
+      "p": "string",
+    },
+  },
+}
+`;
+
+exports[`config test config convert correctly :: replace value 3 1`] = `
+{
+  "a": {
+    "d": {
+      "f": 100,
+    },
+  },
+  "b": {
+    "c": "test2",
+  },
+  "z": {
+    "x": {
+      "p": "string",
+    },
+  },
+}
+`;
+
+exports[`config test config convert correctly :: replace value 4 :: outerObject 1`] = `
+{
+  "a": {
+    "d": {
+      "e": true,
+    },
+  },
+  "b": {
+    "c": 0,
+  },
+  "z": {
+    "x": {
+      "p": 111,
+    },
+  },
+}
+`;

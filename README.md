@@ -20,6 +20,4 @@ interface Data {
 
 - symbol value 
 
-- bigint value
-
-- so on
+- playground

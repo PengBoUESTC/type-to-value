@@ -4,6 +4,11 @@ import { join } from 'node:path'
 
 interface Options {
   sourceFilePath: string
+  tsConfigFilePath?: string
+}
+
+interface ConvertConfig {
+  [path: string]: any
 }
 
 export class TypeToValue {
@@ -34,9 +39,9 @@ export class TypeToValue {
   }
 
   init(options: Options) {
-    const { sourceFilePath } = options
+    const { sourceFilePath, tsConfigFilePath = join(cwd(), 'tsconfig.json') } = options
     const project = new Project({
-      tsConfigFilePath: join(cwd(), 'tsconfig.json')
+      tsConfigFilePath,
     })
     project.addSourceFilesAtPaths(sourceFilePath)
     const tsFiles = project.getDirectories().map(d => d.getSourceFiles().map(s => s.getFilePath())).filter(item => item.length).flat(1)
@@ -61,8 +66,7 @@ export class TypeToValue {
     return project
   }
 
-  generateValue(type: Type<ts.Type>): any {
-    const properties = type.getProperties()
+  generateValue(type: Type<ts.Type>, config?: ConvertConfig): any {
     if (type.isUndefined()) {
       return undefined
     }
@@ -73,29 +77,50 @@ export class TypeToValue {
     if (type.isLiteral()) {
       return this.genLiteralValue(type)
     }
-    
-    // 由外部导入的数据类型
-    if (!properties.length) {
-      return this.genOuterObject(type)
-    }
 
     if (type.isString()) {
       return 'string'
-    } else if (type.isNumber()) {
+    }
+
+    if (type.isBigInt()) {
+      return BigInt('9007199254740991')
+    }
+
+    if (type.isNumber()) {
       return 0
-    } else if (type.isBoolean()) {
+    } 
+    if (type.isBoolean()) {
       return true
-    } else if (type.isArray()) {
-      const elementType = type.getArrayElementTypeOrThrow()
-      return [this.generateValue(elementType)]
-    } else if (type.isTuple()) {
-      const tupleElements = type.getTupleElements()
-      return tupleElements.map(element => this.generateValue(element))
-    }else if (type.isObject()) {
-      return this.genInnerObject(type)
-    } else if (type.isEnum()) {
+    }
+    if (type.isEnum()) {
       return this.genEnum(type.getSymbol()?.getDeclarations()[0].asKindOrThrow(SyntaxKind.EnumDeclaration))
     }
+    if (type.isUnion()) {
+      return this.generateValue(type.getUnionTypes()[0]);
+    }
+    if (type.isArray()) {
+      const elementType = type.getArrayElementTypeOrThrow()
+      return [this.generateValue(elementType)]
+    }
+    if (type.isTuple()) {
+      const tupleElements = type.getTupleElements()
+      return tupleElements.map(element => this.generateValue(element))
+    }
+    if (type.isObject()) {
+      return this.genInnerObject(type, config)
+    }
+    if (type.isVoid()) {
+      return void 0
+    }
+    if (type.isUnknown()) {
+      return {}
+    }
+    const properties = type.getProperties()
+    // 由外部导入的数据类型
+    if (!properties.length) {
+      return this.genOuterObject(type, config)
+    }
+    
     return null
   }
 
@@ -114,21 +139,24 @@ export class TypeToValue {
     return members[0].getValue()
   }
 
-  genInnerObject(type: Type<ts.Type>) {
+  genInnerObject(type: Type<ts.Type>, config?: ConvertConfig) {
     const value: any = {}
     const properties = type.getProperties()
-  
     properties.forEach(prop => {
-      const t = prop.getValueDeclaration()
-      if (t) {
+      const name = prop.getName()
+      if (config && config.hasOwnProperty(name)) {
+        value[name] = config[name]
+      } else {
+        const t = prop.getValueDeclaration()
+        if (!t) return
         const propType = prop.getTypeAtLocation(t)
-        value[prop.getName()] = this.generateValue(propType)
+        value[name] = this.generateValue(propType, this.getConfig(name, config))
       }
     })
     return value
   }
 
-  genOuterObject(type: Type<ts.Type>) {
+  genOuterObject(type: Type<ts.Type>, config?: ConvertConfig) {
     const name = type.getText()
     // 当 没有找到 正确的类型文件时，会全局找到 ts 文件中声明的类型作为 兜底补充
     // 正常场景不会走到 这种场景
@@ -137,21 +165,38 @@ export class TypeToValue {
       if (sourceFile) {
         const interfaceDeclaration = (sourceFile.getInterface(name) || sourceFile.getTypeAlias(name) || sourceFile.getEnum(name))?.getType()
         if (interfaceDeclaration) {
-          return this.generateValue(interfaceDeclaration)
+          return this.generateValue(interfaceDeclaration, config)
         }
       }
     }
     return {}
   }
 
-  runBase(interfaceDeclaration?: InterfaceDeclaration | TypeAliasDeclaration) {
-    if (!interfaceDeclaration) return {}
-    return this.generateValue(interfaceDeclaration.getType())
+  getConfig(leadKey: string, config?: ConvertConfig) {
+    if (!config) return config
+    const nextConfig: Record<string, any> = {}
+    let isEmpty = true
+    Object.keys(config).forEach(key => {
+      if (!key) return
+      const keys = key.split('.')
+      if (keys[0] !== leadKey) return
+      const nextKey = keys.slice(1).join('.')
+      if (!nextKey) return
+      isEmpty = false
+      nextConfig[nextKey] = config[key]
+    })
+    if (isEmpty) return undefined
+    return nextConfig
   }
 
-  run(path: string, typeValue: string) {
+  runBase(interfaceDeclaration?: InterfaceDeclaration | TypeAliasDeclaration, config?: ConvertConfig) {
+    if (!interfaceDeclaration) return {}
+    return this.generateValue(interfaceDeclaration.getType(), config)
+  }
+
+  run(path: string, typeValue: string, config?: ConvertConfig) {
     const sourceFile = this.project.getSourceFile(path)
     if (!sourceFile) return null
-    return this.runBase(sourceFile.getInterface(typeValue) || sourceFile.getTypeAlias(typeValue))
+    return this.runBase(sourceFile.getInterface(typeValue) || sourceFile.getTypeAlias(typeValue), config)
   }
 }
