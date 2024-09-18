@@ -96,7 +96,8 @@ export class TypeToValue {
       return this.genEnum(type.getSymbol()?.getDeclarations()[0].asKindOrThrow(SyntaxKind.EnumDeclaration))
     }
     if (type.isUnion()) {
-      return this.generateValue(type.getUnionTypes()[0]);
+      const unionTypes = type.getUnionTypes()
+    return this.generateValue(unionTypes.find(t => !t.isUndefined()) || unionTypes[0]);
     }
     if (type.isArray()) {
       const elementType = type.getArrayElementTypeOrThrow()
@@ -114,6 +115,11 @@ export class TypeToValue {
     }
     if (type.isUnknown()) {
       return {}
+    }
+
+    // handle symbol type 
+    if (type.getText() === 'symbol') {
+      return Symbol('symbol')
     }
     const properties = type.getProperties()
     // 由外部导入的数据类型
@@ -147,8 +153,10 @@ export class TypeToValue {
       if (config && config.hasOwnProperty(name)) {
         value[name] = config[name]
       } else {
-        const t = prop.getValueDeclaration()
-        if (!t) return
+        const t = prop.getDeclarations()[0]
+        if (!t) {
+          return
+        }
         const propType = prop.getTypeAtLocation(t)
         value[name] = this.generateValue(propType, this.getConfig(name, config))
       }

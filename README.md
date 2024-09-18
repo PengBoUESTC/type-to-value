@@ -18,6 +18,4 @@ interface Data {
 
 ## TODO
 
-- symbol value 
-
 - playground

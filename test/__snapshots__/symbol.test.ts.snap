@@ -2,7 +2,7 @@
 
 exports[`symbol test SymbolData convert correctly 1`] = `
 {
-  "a": null,
+  "a": Symbol(symbol),
   "b": undefined,
   "c": {},
 }

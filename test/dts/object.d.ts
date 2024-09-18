@@ -13,6 +13,10 @@ interface LiteralValue {
 }
 
 interface T {
+  e: boolean
+}
+
+interface T {
   a: string
   b: number
   c: boolean
@@ -21,4 +25,5 @@ interface T {
 interface DataObject2 {
   a: Partial<T>
   b?: number
+  c:  symbol
 }
