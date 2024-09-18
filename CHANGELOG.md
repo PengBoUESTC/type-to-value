@@ -1,3 +1,12 @@
+## [0.0.4](https://github.com/PengBoUESTC/type-to-value/compare/v0.0.3...v0.0.4) (2024-09-18)
+
+
+### Features
+
+* replace getValueDeclaration with getDeclarations; support symbol & update union type value getter ([ebd357d](https://github.com/PengBoUESTC/type-to-value/commit/ebd357d5948bfb22f4daf6c8b87911053d35acdb))
+
+
+
 ## [0.0.3](https://github.com/PengBoUESTC/type-to-value/compare/v0.0.2...v0.0.3) (2024-09-14)
 
 

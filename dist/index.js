@@ -77,7 +77,8 @@ class TypeToValue {
             return this.genEnum((_a = type.getSymbol()) === null || _a === void 0 ? void 0 : _a.getDeclarations()[0].asKindOrThrow(tsMorph.SyntaxKind.EnumDeclaration));
         }
         if (type.isUnion()) {
-            return this.generateValue(type.getUnionTypes()[0]);
+            const unionTypes = type.getUnionTypes();
+            return this.generateValue(unionTypes.find(t => !t.isUndefined()) || unionTypes[0]);
         }
         if (type.isArray()) {
             const elementType = type.getArrayElementTypeOrThrow();
@@ -95,6 +96,9 @@ class TypeToValue {
         }
         if (type.isUnknown()) {
             return {};
+        }
+        if (type.getText() === 'symbol') {
+            return Symbol('symbol');
         }
         const properties = type.getProperties();
         if (!properties.length) {
@@ -125,9 +129,10 @@ class TypeToValue {
                 value[name] = config[name];
             }
             else {
-                const t = prop.getValueDeclaration();
-                if (!t)
+                const t = prop.getDeclarations()[0];
+                if (!t) {
                     return;
+                }
                 const propType = prop.getTypeAtLocation(t);
                 value[name] = this.generateValue(propType, this.getConfig(name, config));
             }
