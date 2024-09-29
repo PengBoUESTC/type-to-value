@@ -1,3 +1,12 @@
+## [0.0.5](https://github.com/PengBoUESTC/type-to-value/compare/v0.0.4...v0.0.5) (2024-09-29)
+
+
+### Features
+
+* support cache ([3cfa82a](https://github.com/PengBoUESTC/type-to-value/commit/3cfa82a31b3671e6a86cc549e8853edfde048c6b))
+
+
+
 ## [0.0.4](https://github.com/PengBoUESTC/type-to-value/compare/v0.0.3...v0.0.4) (2024-09-18)
 
 
