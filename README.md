@@ -1,6 +1,6 @@
 # type-to-value
 
-> convert typescript type to value
+> convert typescript type to javascript value
 
 ## How to use
 
