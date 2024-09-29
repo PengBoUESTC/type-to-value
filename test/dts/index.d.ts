@@ -4,3 +4,7 @@ interface Data {
   // @ts-expect-error test for genOuterObject => return {}
   c: EmptyInterface 
 }
+
+interface DataCache {
+  a: boolean
+}

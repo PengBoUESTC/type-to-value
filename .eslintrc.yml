@@ -24,4 +24,4 @@ rules:
   '@typescript-eslint/ban-ts-comment':
     - 2
   'no-prototype-builtins':
-    - 2
+    - 0

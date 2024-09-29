@@ -1,0 +1,278 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`cahce test dropConvertCache clean test 1`] = `
+{
+  "test/dts/index.d.ts_DataCache": {
+    "a": true,
+  },
+}
+`;
+
+exports[`cahce test dropInsCache clean test 1`] = `
+{
+  "test/**/array.d.ts_": TypeToValue {
+    "project": Project {
+      "_context": ProjectContext {
+        "compilerFactory": CompilerFactory {
+          "documentRegistry": DocumentRegistry {},
+        },
+        "directoryCoordinator": DirectoryCoordinator {},
+        "fileSystemWrapper": TransactionalFileSystem {},
+        "inProjectCoordinator": InProjectCoordinator {},
+        "lazyReferenceCoordinator": LazyReferenceCoordinator {},
+        "logger": ConsoleLogger {},
+        "manipulationSettings": ManipulationSettingsContainer {
+          "_settings": {
+            "indentationText": "    ",
+            "insertSpaceAfterOpeningAndBeforeClosingNonemptyBraces": true,
+            "newLineKind": 1,
+            "quoteKind": """,
+            "usePrefixAndSuffixTextForRename": false,
+            "useTrailingCommas": false,
+          },
+        },
+        "structurePrinterFactory": StructurePrinterFactory {
+          "_getFormatCodeSettings": [Function],
+        },
+      },
+    },
+    "sourceFileCache": {
+      "ArrayData-1": SourceFile {
+        "__sourceFile": [Circular],
+        "_context": ProjectContext {
+          "compilerFactory": CompilerFactory {
+            "documentRegistry": DocumentRegistry {},
+          },
+          "directoryCoordinator": DirectoryCoordinator {},
+          "fileSystemWrapper": TransactionalFileSystem {},
+          "inProjectCoordinator": InProjectCoordinator {},
+          "lazyReferenceCoordinator": LazyReferenceCoordinator {},
+          "logger": ConsoleLogger {},
+          "manipulationSettings": ManipulationSettingsContainer {
+            "_settings": {
+              "indentationText": "    ",
+              "insertSpaceAfterOpeningAndBeforeClosingNonemptyBraces": true,
+              "newLineKind": 1,
+              "quoteKind": """,
+              "usePrefixAndSuffixTextForRename": false,
+              "useTrailingCommas": false,
+            },
+          },
+          "structurePrinterFactory": StructurePrinterFactory {
+            "_getFormatCodeSettings": [Function],
+          },
+        },
+        "_hasBom": undefined,
+        "_inProject": true,
+        "_referenceContainer": SourceFileReferenceContainer {},
+        "_wrappedChildCount": 3,
+      },
+      "ArrayData2-1": SourceFile {
+        "__sourceFile": [Circular],
+        "_context": ProjectContext {
+          "compilerFactory": CompilerFactory {
+            "documentRegistry": DocumentRegistry {},
+          },
+          "directoryCoordinator": DirectoryCoordinator {},
+          "fileSystemWrapper": TransactionalFileSystem {},
+          "inProjectCoordinator": InProjectCoordinator {},
+          "lazyReferenceCoordinator": LazyReferenceCoordinator {},
+          "logger": ConsoleLogger {},
+          "manipulationSettings": ManipulationSettingsContainer {
+            "_settings": {
+              "indentationText": "    ",
+              "insertSpaceAfterOpeningAndBeforeClosingNonemptyBraces": true,
+              "newLineKind": 1,
+              "quoteKind": """,
+              "usePrefixAndSuffixTextForRename": false,
+              "useTrailingCommas": false,
+            },
+          },
+          "structurePrinterFactory": StructurePrinterFactory {
+            "_getFormatCodeSettings": [Function],
+          },
+        },
+        "_hasBom": undefined,
+        "_inProject": true,
+        "_referenceContainer": SourceFileReferenceContainer {},
+        "_wrappedChildCount": 3,
+      },
+      "ArrayData3-1": SourceFile {
+        "__sourceFile": [Circular],
+        "_context": ProjectContext {
+          "compilerFactory": CompilerFactory {
+            "documentRegistry": DocumentRegistry {},
+          },
+          "directoryCoordinator": DirectoryCoordinator {},
+          "fileSystemWrapper": TransactionalFileSystem {},
+          "inProjectCoordinator": InProjectCoordinator {},
+          "lazyReferenceCoordinator": LazyReferenceCoordinator {},
+          "logger": ConsoleLogger {},
+          "manipulationSettings": ManipulationSettingsContainer {
+            "_settings": {
+              "indentationText": "    ",
+              "insertSpaceAfterOpeningAndBeforeClosingNonemptyBraces": true,
+              "newLineKind": 1,
+              "quoteKind": """,
+              "usePrefixAndSuffixTextForRename": false,
+              "useTrailingCommas": false,
+            },
+          },
+          "structurePrinterFactory": StructurePrinterFactory {
+            "_getFormatCodeSettings": [Function],
+          },
+        },
+        "_hasBom": undefined,
+        "_inProject": true,
+        "_referenceContainer": SourceFileReferenceContainer {},
+        "_wrappedChildCount": 3,
+      },
+      "ConvertConfig-1": SourceFile {
+        "__sourceFile": [Circular],
+        "_context": ProjectContext {
+          "compilerFactory": CompilerFactory {
+            "documentRegistry": DocumentRegistry {},
+          },
+          "directoryCoordinator": DirectoryCoordinator {},
+          "fileSystemWrapper": TransactionalFileSystem {},
+          "inProjectCoordinator": InProjectCoordinator {},
+          "lazyReferenceCoordinator": LazyReferenceCoordinator {},
+          "logger": ConsoleLogger {},
+          "manipulationSettings": ManipulationSettingsContainer {
+            "_settings": {
+              "indentationText": "    ",
+              "insertSpaceAfterOpeningAndBeforeClosingNonemptyBraces": true,
+              "newLineKind": 1,
+              "quoteKind": """,
+              "usePrefixAndSuffixTextForRename": false,
+              "useTrailingCommas": false,
+            },
+          },
+          "structurePrinterFactory": StructurePrinterFactory {
+            "_getFormatCodeSettings": [Function],
+          },
+        },
+        "_hasBom": undefined,
+        "_inProject": true,
+        "_referenceContainer": SourceFileReferenceContainer {},
+        "_wrappedChildCount": 17,
+      },
+      "ImportMeta-1": SourceFile {
+        "__sourceFile": [Circular],
+        "_context": ProjectContext {
+          "compilerFactory": CompilerFactory {
+            "documentRegistry": DocumentRegistry {},
+          },
+          "directoryCoordinator": DirectoryCoordinator {},
+          "fileSystemWrapper": TransactionalFileSystem {},
+          "inProjectCoordinator": InProjectCoordinator {},
+          "lazyReferenceCoordinator": LazyReferenceCoordinator {},
+          "logger": ConsoleLogger {},
+          "manipulationSettings": ManipulationSettingsContainer {
+            "_settings": {
+              "indentationText": "    ",
+              "insertSpaceAfterOpeningAndBeforeClosingNonemptyBraces": true,
+              "newLineKind": 1,
+              "quoteKind": """,
+              "usePrefixAndSuffixTextForRename": false,
+              "useTrailingCommas": false,
+            },
+          },
+          "structurePrinterFactory": StructurePrinterFactory {
+            "_getFormatCodeSettings": [Function],
+          },
+        },
+        "_hasBom": undefined,
+        "_inProject": true,
+        "_referenceContainer": SourceFileReferenceContainer {},
+        "_wrappedChildCount": 2,
+      },
+      "ImportMetaEnv-1": SourceFile {
+        "__sourceFile": [Circular],
+        "_context": ProjectContext {
+          "compilerFactory": CompilerFactory {
+            "documentRegistry": DocumentRegistry {},
+          },
+          "directoryCoordinator": DirectoryCoordinator {},
+          "fileSystemWrapper": TransactionalFileSystem {},
+          "inProjectCoordinator": InProjectCoordinator {},
+          "lazyReferenceCoordinator": LazyReferenceCoordinator {},
+          "logger": ConsoleLogger {},
+          "manipulationSettings": ManipulationSettingsContainer {
+            "_settings": {
+              "indentationText": "    ",
+              "insertSpaceAfterOpeningAndBeforeClosingNonemptyBraces": true,
+              "newLineKind": 1,
+              "quoteKind": """,
+              "usePrefixAndSuffixTextForRename": false,
+              "useTrailingCommas": false,
+            },
+          },
+          "structurePrinterFactory": StructurePrinterFactory {
+            "_getFormatCodeSettings": [Function],
+          },
+        },
+        "_hasBom": undefined,
+        "_inProject": true,
+        "_referenceContainer": SourceFileReferenceContainer {},
+        "_wrappedChildCount": 2,
+      },
+      "Options-1": SourceFile {
+        "__sourceFile": [Circular],
+        "_context": ProjectContext {
+          "compilerFactory": CompilerFactory {
+            "documentRegistry": DocumentRegistry {},
+          },
+          "directoryCoordinator": DirectoryCoordinator {},
+          "fileSystemWrapper": TransactionalFileSystem {},
+          "inProjectCoordinator": InProjectCoordinator {},
+          "lazyReferenceCoordinator": LazyReferenceCoordinator {},
+          "logger": ConsoleLogger {},
+          "manipulationSettings": ManipulationSettingsContainer {
+            "_settings": {
+              "indentationText": "    ",
+              "insertSpaceAfterOpeningAndBeforeClosingNonemptyBraces": true,
+              "newLineKind": 1,
+              "quoteKind": """,
+              "usePrefixAndSuffixTextForRename": false,
+              "useTrailingCommas": false,
+            },
+          },
+          "structurePrinterFactory": StructurePrinterFactory {
+            "_getFormatCodeSettings": [Function],
+          },
+        },
+        "_hasBom": undefined,
+        "_inProject": true,
+        "_referenceContainer": SourceFileReferenceContainer {},
+        "_wrappedChildCount": 17,
+      },
+    },
+    "typeKeyCount": {
+      "ArrayData": 1,
+      "ArrayData2": 1,
+      "ArrayData3": 1,
+      "ConvertConfig": 1,
+      "ImportMeta": 1,
+      "ImportMetaEnv": 1,
+      "Options": 1,
+    },
+  },
+}
+`;
+
+exports[`cahce test runWithCopy test 1`] = `
+{
+  "a": "string",
+  "b": 0,
+  "c": {},
+}
+`;
+
+exports[`cahce test runWithCopy test 2`] = `
+{
+  "a": -100,
+  "b": 0,
+  "c": {},
+}
+`;
