@@ -46,7 +46,7 @@
       "eslint --fix",
       "prettier --write"
     ],
-    "dist/**/*.{js,ts,d.ts}": [
+    "dist/**/*.{ts,d.ts}": [
       "eslint --fix",
       "prettier --write"
     ]
