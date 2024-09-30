@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<coverage generated="1727677744559" clover="3.2.0">
-  <project timestamp="1727677744559" name="All files">
+<coverage generated="1727678659124" clover="3.2.0">
+  <project timestamp="1727678659124" name="All files">
     <metrics statements="166" coveredstatements="164" conditionals="68" coveredconditionals="55" methods="34" coveredmethods="34" elements="268" coveredelements="253" complexity="0" loc="166" ncloc="166" packages="1" files="1" classes="1"/>
     <file name="index.ts" path="/Users/pengbo43/my_code/type-to-value/lib/index.ts">
       <metrics statements="166" coveredstatements="164" conditionals="68" coveredconditionals="55" methods="34" coveredmethods="34"/>
@@ -22,10 +22,10 @@
       <line num="47" count="3" type="cond" truecount="0" falsecount="1"/>
       <line num="48" count="3" type="stmt"/>
       <line num="51" count="12" type="stmt"/>
-      <line num="52" count="3336792" type="cond" truecount="1" falsecount="0"/>
-      <line num="53" count="3336792" type="stmt"/>
+      <line num="52" count="8586544" type="cond" truecount="1" falsecount="0"/>
+      <line num="53" count="8586544" type="stmt"/>
       <line num="56" count="12" type="stmt"/>
-      <line num="57" count="1711770" type="stmt"/>
+      <line num="57" count="4714556" type="stmt"/>
       <line num="60" count="12" type="stmt"/>
       <line num="61" count="5" type="stmt"/>
       <line num="62" count="5" type="stmt"/>
@@ -34,17 +34,17 @@
       <line num="67" count="5" type="stmt"/>
       <line num="68" count="5" type="stmt"/>
       <line num="71" count="12" type="stmt"/>
-      <line num="72" count="3336785" type="stmt"/>
-      <line num="73" count="3336785" type="stmt"/>
-      <line num="74" count="3336785" type="cond" truecount="1" falsecount="0"/>
+      <line num="72" count="8586537" type="stmt"/>
+      <line num="73" count="8586537" type="stmt"/>
+      <line num="74" count="8586537" type="cond" truecount="1" falsecount="0"/>
       <line num="75" count="5" type="stmt"/>
-      <line num="78" count="3336780" type="stmt"/>
+      <line num="78" count="8586532" type="stmt"/>
       <line num="81" count="12" type="stmt"/>
-      <line num="82" count="1711763" type="stmt"/>
+      <line num="82" count="4714549" type="stmt"/>
       <line num="85" count="12" type="stmt"/>
-      <line num="86" count="3336820" type="stmt"/>
-      <line num="87" count="3336820" type="cond" truecount="1" falsecount="0"/>
-      <line num="88" count="3336785" type="stmt"/>
+      <line num="86" count="8586572" type="stmt"/>
+      <line num="87" count="8586572" type="cond" truecount="1" falsecount="0"/>
+      <line num="88" count="8586537" type="stmt"/>
       <line num="90" count="35" type="stmt"/>
       <line num="93" count="12" type="stmt"/>
       <line num="94" count="51" type="stmt"/>
@@ -163,13 +163,13 @@
       <line num="308" count="43" type="cond" truecount="3" falsecount="1"/>
       <line num="309" count="43" type="cond" truecount="0" falsecount="1"/>
       <line num="310" count="43" type="stmt"/>
-      <line num="317" count="1711763" type="stmt"/>
-      <line num="318" count="1711763" type="cond" truecount="1" falsecount="0"/>
+      <line num="317" count="4714549" type="stmt"/>
+      <line num="318" count="4714549" type="cond" truecount="1" falsecount="0"/>
       <line num="319" count="5" type="stmt"/>
       <line num="320" count="5" type="stmt"/>
       <line num="321" count="5" type="stmt"/>
-      <line num="325" count="298107" type="stmt"/>
-      <line num="327" count="298107" type="stmt"/>
+      <line num="325" count="800729" type="stmt"/>
+      <line num="327" count="800729" type="stmt"/>
     </file>
   </project>
 </coverage>

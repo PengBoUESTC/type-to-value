@@ -4,7 +4,7 @@ import { createTypeToValue } from '../lib/index'
 
 describe('bench', () => {
   test('createTypeToValue cache bench test', async () => {
-    const bench = new Bench({ time: 500 })
+    const bench = new Bench({ time: 1500 })
     bench
       .add('createTypeToValue with no cache', () => {
         createTypeToValue({ sourceFilePath: 'test/**/*.d.ts'})
@@ -19,7 +19,7 @@ describe('bench', () => {
   })
 
   test('convert cache bench test', async () => {
-    const bench = new Bench({ time: 500 })
+    const bench = new Bench({ time: 1500 })
     bench
       .add('convert with no cache', () => {
         const typeValue = createTypeToValue({ sourceFilePath: 'test/**/*.d.ts'})

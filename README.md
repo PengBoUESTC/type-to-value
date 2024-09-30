@@ -44,16 +44,16 @@ interface Data {
 
 | (index) | Task Name | ops/sec | Average Time (ns) | Margin | Samples |
 | :----: | :----: | :----: | :----: | :----: | :----: | 
-| 0 | createTypeToValue with no cache | 1 | 759875298.4046936 | ±8.95% | 10 | 
-| 1 | createTypeToValue with cache | 2,732,229 | 366.00140104860225 | ±0.22% | 1366115 |
+| 0 | createTypeToValue with no cache | 1 | 694115616.607666 | ±5.26% | 10 | 
+| 1 | createTypeToValue with cache | 2,481,911 | 402.91517262316285 | ±0.25% | 3722869 |
 
 #### convert test
 
 | (index) | Task Name | ops/sec | Average Time (ns) | Margin | Samples |
 | :----: | :----: | :----: | :----: | :----: | :----: | 
-| 0 | convert with no cache | 1 | 961704700.1957893 | ±3.87% | 10 | 
-| 1 | convert with cache | 2,385,505 | 419.19844706993086 | ±1.90% | 1192753 |
-| 2 | convert with cache & copy | 500,484 | 1998.0653901491796 | ±0.59% | 250243 |
+| 0 | convert with no cache | 1 | 987094781.8934917 | ±4.60% | 10 | 
+| 1 | convert with cache | 2,475,805 | 403.9089469976046 | ±0.68% | 3713709 |
+| 2 | convert with cache & copy | 504,439 | 1982.3976543052838 | ±0.17% | 756660 |
 
 ## TODO
 
