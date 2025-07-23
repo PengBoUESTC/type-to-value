@@ -11,6 +11,7 @@ exports[`cahce test dropConvertCache clean test 1`] = `
 exports[`cahce test dropInsCache clean test 1`] = `
 {
   "test/**/array.d.ts_": TypeToValue {
+    "processedTypes": Set {},
     "project": Project {
       "_context": ProjectContext {
         "compilerFactory": CompilerFactory {

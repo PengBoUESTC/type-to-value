@@ -93,7 +93,9 @@ export const createTypeToValue = (options: Options) => {
 export class TypeToValue {
   private sourceFileCache: Record<string, SourceFile> = {}
   private typeKeyCount: Record<string, number> = {}
+  private processedTypes: Set<string> = new Set()
   project: Project | null = null
+
   constructor(options: Options) {
     if (options.cache) {
       return createTypeToValue(options)
@@ -154,7 +156,11 @@ export class TypeToValue {
     return project
   }
 
-  generateValue(type: Type<ts.Type>, config?: ConvertConfig): any {
+  generateValue(
+    type: Type<ts.Type>,
+    config?: ConvertConfig,
+    parentType?: string,
+  ): any {
     if (type.isUndefined()) {
       return undefined
     }
@@ -192,18 +198,34 @@ export class TypeToValue {
       const unionTypes = type.getUnionTypes()
       return this.generateValue(
         unionTypes.find((t) => !t.isUndefined()) || unionTypes[0],
+        config,
+        parentType,
       )
     }
     if (type.isArray()) {
       const elementType = type.getArrayElementTypeOrThrow()
-      return [this.generateValue(elementType)]
+      return [this.generateValue(elementType, config, parentType)]
     }
     if (type.isTuple()) {
       const tupleElements = type.getTupleElements()
-      return tupleElements.map((element) => this.generateValue(element))
+      return tupleElements.map((element) =>
+        this.generateValue(element, config, parentType),
+      )
     }
     if (type.isObject()) {
-      return this.genInnerObject(type, config)
+      const typeText = type.getText()
+      if (parentType && this.processedTypes.has(typeText)) {
+        // 如果检测到递归，那这个字段一定是 可选的，直接返回 空即可
+        return void 0
+      }
+      if (parentType) {
+        this.processedTypes.add(typeText)
+      }
+      const result = this.genInnerObject(type, config, typeText)
+      if (parentType) {
+        this.processedTypes.delete(typeText)
+      }
+      return result
     }
     if (type.isVoid()) {
       return void 0
@@ -219,7 +241,7 @@ export class TypeToValue {
     const properties = type.getProperties()
     // 由外部导入的数据类型
     if (!properties.length) {
-      return this.genOuterObject(type, config)
+      return this.genOuterObject(type, config, parentType)
     }
 
     return null
@@ -240,7 +262,11 @@ export class TypeToValue {
     return members[0].getValue()
   }
 
-  genInnerObject(type: Type<ts.Type>, config?: ConvertConfig) {
+  genInnerObject(
+    type: Type<ts.Type>,
+    config?: ConvertConfig,
+    parentType?: string,
+  ) {
     const value: any = {}
     const properties = type.getProperties()
     properties.forEach((prop) => {
@@ -253,13 +279,21 @@ export class TypeToValue {
           return
         }
         const propType = prop.getTypeAtLocation(t)
-        value[name] = this.generateValue(propType, this.getConfig(name, config))
+        value[name] = this.generateValue(
+          propType,
+          this.getConfig(name, config),
+          parentType,
+        )
       }
     })
     return value
   }
 
-  genOuterObject(type: Type<ts.Type>, config?: ConvertConfig) {
+  genOuterObject(
+    type: Type<ts.Type>,
+    config?: ConvertConfig,
+    parentType?: string,
+  ) {
     const name = type.getText()
     // 当 没有找到 正确的类型文件时，会全局找到 ts 文件中声明的类型作为 兜底补充
     // 正常场景不会走到 这种场景
@@ -272,7 +306,7 @@ export class TypeToValue {
           sourceFile.getEnum(name)
         )?.getType()
         if (interfaceDeclaration) {
-          return this.generateValue(interfaceDeclaration, config)
+          return this.generateValue(interfaceDeclaration, config, parentType)
         }
       }
     }
@@ -323,7 +357,6 @@ export class TypeToValue {
 
   runWithCopy(path: string, typeValue: string, config?: ConvertConfig) {
     const result = this.runWithCache(path, typeValue, config)
-
     return JSON.parse(JSON.stringify(result))
   }
 }

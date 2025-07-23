@@ -30,19 +30,32 @@ export declare const createTypeToValue: (options: Options) => TypeToValue
 export declare class TypeToValue {
   private sourceFileCache
   private typeKeyCount
+  private processedTypes
   project: Project | null
   constructor(options: Options)
   get keyCount(): Record<string, number>
   get sourceFilesPaths(): Record<string, string>
   get sourceFiles(): Record<string, SourceFile>
   init(options: Options): Project
-  generateValue(type: Type<ts.Type>, config?: ConvertConfig): any
+  generateValue(
+    type: Type<ts.Type>,
+    config?: ConvertConfig,
+    parentType?: string,
+  ): any
   genLiteralValue(
     type: Type<ts.Type>,
   ): string | number | boolean | ts.PseudoBigInt | undefined
   genEnum(enumDeclaration?: EnumDeclaration): string | number | undefined
-  genInnerObject(type: Type<ts.Type>, config?: ConvertConfig): any
-  genOuterObject(type: Type<ts.Type>, config?: ConvertConfig): any
+  genInnerObject(
+    type: Type<ts.Type>,
+    config?: ConvertConfig,
+    parentType?: string,
+  ): any
+  genOuterObject(
+    type: Type<ts.Type>,
+    config?: ConvertConfig,
+    parentType?: string,
+  ): any
   getConfig(
     leadKey: string,
     config?: ConvertConfig,
@@ -54,5 +67,6 @@ export declare class TypeToValue {
   run(path: string, typeValue: string, config?: ConvertConfig): any
   runWithCache(path: string, typeValue: string, config?: ConvertConfig): any
   runWithCopy(path: string, typeValue: string, config?: ConvertConfig): any
+  private genBasicStructure
 }
 export {}

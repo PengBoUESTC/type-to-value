@@ -62,6 +62,7 @@ class TypeToValue {
     constructor(options) {
         this.sourceFileCache = {};
         this.typeKeyCount = {};
+        this.processedTypes = new Set();
         this.project = null;
         if (options.cache) {
             return createTypeToValue(options);
@@ -113,7 +114,7 @@ class TypeToValue {
         });
         return project;
     }
-    generateValue(type, config) {
+    generateValue(type, config, parentType) {
         var _a;
         if (type.isUndefined()) {
             return undefined;
@@ -142,18 +143,29 @@ class TypeToValue {
         }
         if (type.isUnion()) {
             const unionTypes = type.getUnionTypes();
-            return this.generateValue(unionTypes.find((t) => !t.isUndefined()) || unionTypes[0]);
+            return this.generateValue(unionTypes.find((t) => !t.isUndefined()) || unionTypes[0], config, parentType);
         }
         if (type.isArray()) {
             const elementType = type.getArrayElementTypeOrThrow();
-            return [this.generateValue(elementType)];
+            return [this.generateValue(elementType, config, parentType)];
         }
         if (type.isTuple()) {
             const tupleElements = type.getTupleElements();
-            return tupleElements.map((element) => this.generateValue(element));
+            return tupleElements.map((element) => this.generateValue(element, config, parentType));
         }
         if (type.isObject()) {
-            return this.genInnerObject(type, config);
+            const typeText = type.getText();
+            if (parentType && this.processedTypes.has(typeText)) {
+                return void 0;
+            }
+            if (parentType) {
+                this.processedTypes.add(typeText);
+            }
+            const result = this.genInnerObject(type, config, typeText);
+            if (parentType) {
+                this.processedTypes.delete(typeText);
+            }
+            return result;
         }
         if (type.isVoid()) {
             return void 0;
@@ -166,7 +178,7 @@ class TypeToValue {
         }
         const properties = type.getProperties();
         if (!properties.length) {
-            return this.genOuterObject(type, config);
+            return this.genOuterObject(type, config, parentType);
         }
         return null;
     }
@@ -184,7 +196,7 @@ class TypeToValue {
             return;
         return members[0].getValue();
     }
-    genInnerObject(type, config) {
+    genInnerObject(type, config, parentType) {
         const value = {};
         const properties = type.getProperties();
         properties.forEach((prop) => {
@@ -198,12 +210,12 @@ class TypeToValue {
                     return;
                 }
                 const propType = prop.getTypeAtLocation(t);
-                value[name] = this.generateValue(propType, this.getConfig(name, config));
+                value[name] = this.generateValue(propType, this.getConfig(name, config), parentType);
             }
         });
         return value;
     }
-    genOuterObject(type, config) {
+    genOuterObject(type, config, parentType) {
         var _a;
         const name = type.getText();
         for (let i = 1; i <= this.typeKeyCount[name]; i++) {
@@ -213,7 +225,7 @@ class TypeToValue {
                     sourceFile.getTypeAlias(name) ||
                     sourceFile.getEnum(name))) === null || _a === void 0 ? void 0 : _a.getType();
                 if (interfaceDeclaration) {
-                    return this.generateValue(interfaceDeclaration, config);
+                    return this.generateValue(interfaceDeclaration, config, parentType);
                 }
             }
         }
@@ -263,6 +275,26 @@ class TypeToValue {
     runWithCopy(path, typeValue, config) {
         const result = this.runWithCache(path, typeValue, config);
         return JSON.parse(JSON.stringify(result));
+    }
+    genBasicStructure(type) {
+        const value = {};
+        const properties = type.getProperties();
+        properties.forEach((prop) => {
+            const name = prop.getName();
+            const t = prop.getDeclarations()[0];
+            if (!t)
+                return;
+            const propType = prop.getTypeAtLocation(t);
+            if (propType.isString())
+                value[name] = 'string';
+            else if (propType.isNumber())
+                value[name] = 0;
+            else if (propType.isBoolean())
+                value[name] = true;
+            else
+                value[name] = null;
+        });
+        return value;
     }
 }
 

@@ -3,25 +3,25 @@
 exports[`bench convert cache bench test 1`] = `
 [
   {
-    "Average Time (ns)": 987094781.8934917,
-    "Margin": "±4.60%",
+    "Average Time (ns)": 550398666.9540405,
+    "Margin": "±4.74%",
     "Samples": 10,
     "Task Name": "convert with no cache",
     "ops/sec": "1",
   },
   {
-    "Average Time (ns)": 403.9089469976046,
-    "Margin": "±0.68%",
-    "Samples": 3713709,
+    "Average Time (ns)": 320.64032661948556,
+    "Margin": "±1.70%",
+    "Samples": 4678307,
     "Task Name": "convert with cache",
-    "ops/sec": "2,475,805",
+    "ops/sec": "3,118,759",
   },
   {
-    "Average Time (ns)": 1982.3976543052838,
-    "Margin": "±0.17%",
-    "Samples": 756660,
+    "Average Time (ns)": 1252.8423010536183,
+    "Margin": "±0.85%",
+    "Samples": 1197278,
     "Task Name": "convert with cache & copy",
-    "ops/sec": "504,439",
+    "ops/sec": "798,185",
   },
 ]
 `;
@@ -29,18 +29,18 @@ exports[`bench convert cache bench test 1`] = `
 exports[`bench createTypeToValue cache bench test 1`] = `
 [
   {
-    "Average Time (ns)": 694115616.607666,
-    "Margin": "±5.26%",
+    "Average Time (ns)": 488675791.8357849,
+    "Margin": "±28.58%",
     "Samples": 10,
     "Task Name": "createTypeToValue with no cache",
-    "ops/sec": "1",
+    "ops/sec": "2",
   },
   {
-    "Average Time (ns)": 402.91517262316285,
-    "Margin": "±0.25%",
-    "Samples": 3722869,
+    "Average Time (ns)": 349.6375991824743,
+    "Margin": "±3.94%",
+    "Samples": 4290157,
     "Task Name": "createTypeToValue with cache",
-    "ops/sec": "2,481,911",
+    "ops/sec": "2,860,104",
   },
 ]
 `;
