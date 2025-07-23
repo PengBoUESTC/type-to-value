@@ -67,6 +67,5 @@ export declare class TypeToValue {
   run(path: string, typeValue: string, config?: ConvertConfig): any
   runWithCache(path: string, typeValue: string, config?: ConvertConfig): any
   runWithCopy(path: string, typeValue: string, config?: ConvertConfig): any
-  private genBasicStructure
 }
 export {}

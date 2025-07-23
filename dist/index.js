@@ -276,26 +276,6 @@ class TypeToValue {
         const result = this.runWithCache(path, typeValue, config);
         return JSON.parse(JSON.stringify(result));
     }
-    genBasicStructure(type) {
-        const value = {};
-        const properties = type.getProperties();
-        properties.forEach((prop) => {
-            const name = prop.getName();
-            const t = prop.getDeclarations()[0];
-            if (!t)
-                return;
-            const propType = prop.getTypeAtLocation(t);
-            if (propType.isString())
-                value[name] = 'string';
-            else if (propType.isNumber())
-                value[name] = 0;
-            else if (propType.isBoolean())
-                value[name] = true;
-            else
-                value[name] = null;
-        });
-        return value;
-    }
 }
 
 exports.TypeToValue = TypeToValue;

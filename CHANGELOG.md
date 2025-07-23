@@ -1,3 +1,12 @@
+## [0.0.6](https://github.com/PengBoUESTC/type-to-value/compare/v0.0.5...v0.0.6) (2025-07-23)
+
+
+### Bug Fixes
+
+* type recursion ([6eb528c](https://github.com/PengBoUESTC/type-to-value/commit/6eb528c5266be4e61dd66334fb3f6b94b27a2290))
+
+
+
 ## [0.0.5](https://github.com/PengBoUESTC/type-to-value/compare/v0.0.4...v0.0.5) (2024-09-29)
 
 
